@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine ❤️</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(to right, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    color: white;
+  }
+
+  .container {
+    text-align: center;
+    z-index: 2;
+  }
+
+  h1 {
+    font-size: 3em;
+    margin-bottom: 30px;
+  }
+
+  button {
+    padding: 15px 35px;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+
+  #yes {
+    background: white;
+    color: #ff4d6d;
+    margin-right: 20px;
+  }
+
+  #no {
+    background: #ff4d6d;
+    color: white;
+    position: absolute;
+  }
+
+  /* Floating hearts */
+  .heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 22px;
+    animation: float 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Will you be my Valentine? 💖</h1>
+  <button id="yes" onclick="yesClicked()">YES 😍</button>
+  <button id="no">NO 😢</button>
+</div>
+
+<script>
+  /* MUSIC */
+  const audio = new Audio("audio.mp3");
+  audio.loop = true;
+
+  /* NO BUTTON LOGIC */
+  const noBtn = document.getElementById("no");
+  let scale = 1;
+  let speed = 300;
+
+  noBtn.addEventListener("mouseover", escape);
+  noBtn.addEventListener("touchstart", escape);
+
+  function escape() {
+    scale -= 0.1;
+    speed -= 30;
+
+    if (scale < 0.4) scale = 0.4;
+    if (speed < 80) speed = 80;
+
+    const x = Math.random() * (window.innerWidth - noBtn.clientWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.clientHeight);
+
+    noBtn.style.transition = `all ${speed}ms`;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    noBtn.style.transform = `scale(${scale})`;
+  }
+
+  /* YES BUTTON */
+  function yesClicked() {
+    audio.play();
+    document.body.innerHTML = `
+      <h1 style="text-align:center; margin-top:40vh;">
+        💕 YAYYYY 💕<br><br>
+        I knew it 😘<br>
+        Happy Valentine’s Day ❤️
+      </h1>
+    `;
+  }
+
+  /* FLOATING HEARTS */
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+  }, 300);
+</script>
+
+</body>
+</html>
